@@ -1,0 +1,9 @@
+---
+ibmim_url: https://ak-delivery04-mul.dhe.ibm.com/sdfdl/v2/sar/CM/RA/0a7zg/0/Xa.2/Xb.jusyLTSp44S0edi-7NOyBiAiNh0iCjdw3kxVkhohISH0KXSD52Mmdoo-PnA/Xc.CM/RA/0a7zg/0/agent.installer.linux.gtk.x86_64_1.9.2001.20211222_1411.zip/Xd./Xf.LPR.D1VC/Xg.11685647/Xi.habanero/XY.habanero/XZ.CeTj5ii-nakrbeq691XQof3QAo4pAfX9/agent.installer.linux.gtk.x86_64_1.9.2001.20211222_1411.zip
+#package: agent.installer.aix.gtk.ppc_1.9.2001.20211222_1411.zip
+#ibmim_url: https://ak-delivery04-mul.dhe.ibm.com/sdfdl/v2/sar/CM/RA/0a7zg/0/Xa.2/Xb.jusyLTSp44S02VJ9jktQ21SoFi0vLajU-Swl0XyeTlBQTanMEDZXkqs7N0k/Xc.CM/RA/0a7zg/0/agent.installer.linux.gtk.x86_64_1.9.2001.20211222_1411.zip/Xd./Xf.LPR.D1VC/Xg.11680136/Xi.habanero/XY.habanero/XZ.A7p9c55BwUODAWJSyZKtOuKKzfGA4uQ-/agent.installer.linux.gtk.x86_64_1.9.2001.20211222_1411.zip
+package:  agent.installer.linux.gtk.x86_64_1.9.2001.20211222_1411.zip
+platform: linux
+architecture: x86_64
+ibmim_tools: /opt/IBM/InstallationManager/eclipse/tools
+credential_lib: http://www.ibm.com/software/repositorymanager/entitled/repository.xml

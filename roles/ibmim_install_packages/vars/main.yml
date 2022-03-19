@@ -1,0 +1,13 @@
+---
+java_sdk_url: http://www.ibm.com/software/repositorymanager/com.ibm.java.jdk.v8
+was_nd_url: http://www.ibm.com/software/repositorymanager/com.ibm.websphere.ND.v90
+credential_store: http://www.ibm.com/software/repositorymanager/entitled/repository.xml
+java_sdk_package: com.ibm.java.jdk.v8_8.0.7005.20220308_0733 
+was_nd_package: com.ibm.websphere.ND.v90_9.0.5006.20201109_1605
+ibmim_tools_source: /opt/IBM/InstallationManager/eclipse/tools
+ibm_ihs_url: http://www.ibm.com/software/repositorymanager/com.ibm.websphere.IHS.v90
+ibm_ihs_package: com.ibm.websphere.IHS.v90_9.0.5006.20201109_1605
+ibm_ihs_url: http://www.ibm.com/software/repositorymanager/com.ibm.websphere.IHS.v90
+#java_sdk_package: com.ibm.java.jdk.v8_8.0.7005.20220209_1019 
+was_nd_package: com.ibm.websphere.ND.v90_9.0.5006.20201109_1605
+ibmim_tools_source: /opt/IBM/InstallationManager/eclipse/tools

@@ -1,0 +1,8 @@
+---
+# tasks file for pre_req
+
+- name: update zip , java
+  yum:
+    name: 
+      - zip
+      - java

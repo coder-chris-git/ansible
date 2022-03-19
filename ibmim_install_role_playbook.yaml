@@ -1,0 +1,17 @@
+---
+- name: IBM installation manager install
+  hosts: wasservers
+  become: true
+  vars:
+    ibmim_install_type: 'admin'
+    ibmim_packages: com.ibm.java.jdk.v8_8.0.7005.20220308_0733, com.ibm.websphere.IHS.v90_9.0.5006.20201109_1605
+    ibmim_packages_repo: https://www.ibm.com/software/repositorymanager/com.ibm.websphere.IHS.v90
+    ibmim_packages_dest: /opt/IBM/IHS
+  roles:
+   # - pre_req
+   # - ibm_installation_manager_install
+   # - ibmim_save_credentials
+    - ibmim_install_packages
+    #- websphere_nd
+    #- websphere_create_profile
+

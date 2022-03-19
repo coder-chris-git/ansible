@@ -1,0 +1,25 @@
+---
+# tasks file for ibm_installation_manager_install
+
+- name: Create a directory if it does not exist
+  file:
+    path:  /usr/tmp/im
+    state: directory
+    mode: '0755'
+
+- name: download ibm installation manager
+  get_url:
+    url: "{{ ibmim_url }}"
+    dest: /usr/tmp/
+    mode: 0755
+
+- name: unzip installer
+  unarchive:
+    src: /usr/tmp/{{package}}
+    dest: /usr/tmp/im
+    remote_src: yes
+- name: Install
+  ibmim_installer:
+    src: /usr/tmp/im
+    #accessRights: "{{ ibmim_install_type }}"
+

@@ -1,0 +1,6 @@
+---
+- name: installing {{ibmim_packages}}
+  ibmim:
+    name: "{{ibmim_packages}}"
+    repos: "{{ibmim_packages_repo}}"
+    dest:  "{{ibmim_packages_dest}}"

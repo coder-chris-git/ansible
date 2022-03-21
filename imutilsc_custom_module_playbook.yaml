@@ -1,0 +1,31 @@
+---
+- name: ysn
+  hosts: all
+  become: true
+
+  tasks:
+    - name: imutilsc custom module
+      imutilsc:
+          saveCredential:
+              username: "cdav49719@gmail.com"
+              password: "wasAns123"
+              url: http://www.ibm.com/software/repositorymanager/entitled/repository.xml
+      register: credential
+    - name: cred output
+      debug:
+        msg: "{{credential}}"
+    - name: encrypt string
+      imutilsc:
+          encryptString: "yoooooonjhjbuhbjminoihoi"
+      register: string
+    - name: string output
+      debug:
+        msg: "{{ string }}"
+    - name: get version
+      imutilsc:
+          get: version
+      register: version
+
+    - name: show facts
+      debug:
+        msg: "{{version}}"

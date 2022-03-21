@@ -1,38 +1,39 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import subprocess
-import os
+
 from ansible.module_utils.basic import *
 
 
 class imutilsc():
     module = None,
-    module_facts = dict(username=None, stdout=None, stderr=None)
 
     def __init__(self):
-        source_default = "/opt/IBM/InstallationManager/eclipse/tools/imutilsc"
 
-        # create Dictionaries
+        # create Dictionaries usually when the dict is lengthy or nested
 
-        encryptString = dict(type='dict', options=dict(
-                str = dict(required = True),
-                source = dict(default=source_default)))
-        get = dict(type='str')
-        saveCredentials = dict(type='dict',options=dict(
+        saveCredential = dict(type='dict',options=dict(
                 username=dict(required=True),
                 password=dict(required=True),
                 url=dict(default = 'http://www.ibm.com/software/repositorymanager/entitled/repository.xml'),
-                source=dict(default=source_default)))
-#       set dictiornaires to Ansible agruement spec
-        self.module = AnsibleModule(argument_spec=dict(
-            #add dict to list
-            saveCredentials=dict(**saveCredentials),
-            encryptString =dict(**encryptString),
-            get=dict(**get)
-
         ))
 
-    #functions using module params
+        # set dictiornaires to Ansible agruement spec  or add directly
+
+        self.module = AnsibleModule(argument_spec=dict(
+
+            #add dict to list from var
+
+            saveCredential=dict(**saveCredential),
+
+            #add directly
+
+            encryptString =dict(type='str'),
+            get=dict(type='str'),
+            source=dict(type='str', default="/opt/IBM/InstallationManager/eclipse/tools/imutilsc")
+        ))
+
+    #subpro function exits module with json response
+
     def subpro(self,cmd,msg):
         child = subprocess.Popen([
             cmd
@@ -48,32 +49,32 @@ class imutilsc():
                                    stderr=stderr_value,
                                    stdout=stdout_value)
         self.module.exit_json(changed=True, stdout=stdout_value)
+
     def encryptString(self,module_params):
-        encryptString = module_params.get('encryptString')
-        source = encryptString['source']
-        str = encryptString['str']
-        cmd = source + " encryptString " + str
-        msg = str
+        encryptString = module_params['encryptString']
+        source = module_params['source']
+        cmd = source + " encryptString " + encryptString
+        msg = encryptString
         self.subpro(cmd,msg)
 
 
 
-    def saveCredentials(self, module_params):
-        saveCredentials = module_params.get('saveCredentials')
+    def saveCredential(self, module_params):
+        saveCredential = module_params.get('saveCredential')
 
-        username = saveCredentials['username']
-        password = saveCredentials['password']
-        url = saveCredentials['url']
-        source = saveCredentials['source']
+        username = saveCredential['username']
+        password = saveCredential['password']
+        url = saveCredential['url']
+        source = module_params['source']
 
         cmd =  source + ' saveCredential -url ' + url + ' -userName ' + username + ' -userPassword ' + password
-        msg = saveCredentials
+        msg = saveCredential
 
         self.subpro(cmd,msg)
 
     def get(self,module_params):
         name = module_params['get']
-        source = "/opt/IBM/InstallationManager/eclipse/tools/imutilsc"
+        source = module_params['source']
 
 
         cmd = source + " " +  name
@@ -81,8 +82,8 @@ class imutilsc():
         self.subpro(cmd,msg)
 
     def main(self):
-        if self.module.params['saveCredentials']:
-            self.saveCredentials(self.module.params)
+        if self.module.params['saveCredential']:
+            self.saveCredential(self.module.params)
         if self.module.params['encryptString']:
             self.encryptString(self.module.params)
         if self.module.params['get']:
@@ -90,3 +91,4 @@ class imutilsc():
 if __name__ == '__main__':
     imutilsc = imutilsc()
     imutilsc.main()
+

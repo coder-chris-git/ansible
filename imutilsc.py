@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from email.policy import default
+from secrets import choice
 from ansible.module_utils.basic import *
 
 
@@ -8,6 +10,13 @@ class imutilsc():
     module = None,
 
     def __init__(self):
+
+        get= dict(type='dict',options=dict(
+                name = dict(type = 'str' , choices = ['help', 'version']),
+                command = dict(type = 'str')
+
+
+                  ))
 
         # create Dictionaries usually when the dict is lengthy or nested
 
@@ -28,7 +37,7 @@ class imutilsc():
             #add directly
 
             encryptString =dict(type='str'),
-            get=dict(type='str',choices=['help','version']),
+            get = dict(**get),
             source=dict(type='str', default="/opt/IBM/InstallationManager/eclipse/tools/imutilsc")
         ))
 
@@ -73,12 +82,19 @@ class imutilsc():
         self.subpro(cmd,msg)
 
     def get(self,module_params):
-        name = module_params['get']
+
+        get = module_params.get('get')
+        name = get['name']
         source = module_params['source']
+        command = get['command']
+        if name == 'help' and command:
+          name = name + " " + command
+
+
 
 
         cmd = source + " " +  name
-        msg =  "uddsd"
+        msg =  cmd
         self.subpro(cmd,msg)
 
     def main(self):
@@ -88,6 +104,7 @@ class imutilsc():
             self.encryptString(self.module.params)
         if self.module.params['get']:
             self.get(self.module.params)
+
 if __name__ == '__main__':
     imutilsc = imutilsc()
     imutilsc.main()

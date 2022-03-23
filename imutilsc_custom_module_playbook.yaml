@@ -8,7 +8,7 @@
       imutilsc:
           saveCredential:
               username: "cdav49719@gmail.com"
-              password: "wasAns123"
+              password: *******
               url: http://www.ibm.com/software/repositorymanager/entitled/repository.xml
       register: credential
     - name: cred output

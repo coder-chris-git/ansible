@@ -1,0 +1,83 @@
+---
+- name: test
+  hosts: localhost
+  tasks: 
+    - name: test
+      custom_ps_grep:
+        name: java
+        count: true
+        dest: /home/ec2-user/ansible/files/
+
+    - name: test
+      custom_ps_grep:
+        name: "{{item}}"
+        dest: /home/ec2-user/ansible/files/
+      loop: 
+        - java
+        - http
+        - LLAWP
+          
+    #   ignore_errors: true
+
+    - name: testing ps_grep
+      custom_ps_grep: 
+        name: java
+        dest: /home/ec2-user/ansible/files/
+
+    - name: testing ps_grep
+      custom_df: 
+        option: human
+        dest: /home/ec2-user/ansible/files/
+
+
+    - name: testin if_config
+      custom_if_config:
+        option: all
+        dest: /home/ec2-user/ansible/files/
+
+
+    # - name: test
+    #   run_cmd:
+    #     run_config: 
+    #       flag: all
+    #       dest: /home/ec2-user/ansible
+    #   ignore_errors: true
+
+    # - name: test
+    #   run_cmd:
+    #     df: 
+    #       os: Linux
+    #       dest: /home/ec2-user/ansible
+          
+    #   ignore_errors: true
+  
+
+    # - name:
+    #   ps_grep:
+    #     name: http
+    #     sort: "14"
+    #     count: true
+    #     dest: /home/ec2-user/ansible
+
+    # - name:
+    #   ps_grep:
+    #     name: java
+    #     awk: "2"
+    #     dest: /home/ec2-user/ansible
+
+    # - name:
+    #   ps_grep:
+    #     name: java
+    #     #v_grep: true
+    #     dest: /home/ec2-user/ansible
+    #   ignore_errors: true
+
+
+
+
+
+
+       
+
+       
+      

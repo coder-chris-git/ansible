@@ -16,18 +16,22 @@ class custom_df:
         dest = df['dest']
         cmd = 'df'
         
-        if option and option == 'human' or 'hr' or 'human_readable':
+        path = "{}/df.out".format(dest)
+
+        
+        if option == 'human':
             cmd = cmd + ' -h'
+            path = "{}/df_h.out".format(dest)
+
         child = subprocess.Popen([cmd], shell=True,
                                  stdout=subprocess.PIPE)
         (stdout_value, stderr_value) = child.communicate()
 
-        path = str(dest) + '/df.out'
         with open(path, 'w') as log:
             print >> log, stdout_value
         self.module.exit_json(changed=True, stdout=stdout_value)
 
 
 if __name__ == '__main__':
-    run_cmd = custom_df()
-    run_cmd.main()
+    df = custom_df()
+    df.main()

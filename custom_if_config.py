@@ -3,64 +3,32 @@
 
 from ansible.module_utils.basic import *
 
-class custom_if_config():
-    
+class custom_if_config:
 
     def __init__(self):
- 
-        # create Dictionaries usually when the dict is lengthy or nested
 
-
-        # set dictiornaires to Ansible agruement spec  or add directly
-
-        self.module = AnsibleModule(argument_spec=dict(
-
-            #add dict to list from var
-        
-           
-                option = dict(),
-                dest = dict()
-
-
-        ))
-
-
-
-
-
-
+        self.module = AnsibleModule(argument_spec=dict(option=dict(),
+                                    dest=dict()))
 
     def main(self):
+
         if_config = self.module.params
         option = if_config['option']
         dest = if_config['dest']
-        
-        cmd = "ifconfig > {0}/ifconfig.out".format(dest)
+        cmd = 'ifconfig'
 
-        if option and option =='all':
-             cmd = "-a >".join(cmd.split(">"))
+        if option and option == 'all':
+            cmd = cmd + ' -a'
 
-        if option and option =='eth0':
-          cmd = "-a >".join(cmd.split(">"))
-        
-        child = subprocess.Popen([
-            cmd
-        ],
-                                 shell=True,
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-        stdout_value, stderr_value = child.communicate()
-        # Read arguments
+        child = subprocess.Popen([cmd], shell=True,
+                                 stdout=subprocess.PIPE)
+        (stdout_value, stderr_value) = child.communicate()
 
-        if child.returncode != 0:
-            self.module.fail_json(msg="failed",
-                                   stderr=stderr_value,
-                                   stdout=stdout_value)
+        path = str(dest) + '/ifconfig.out'
+        with open(path, 'w') as log:
+            print >> log, stdout_value
         self.module.exit_json(changed=True, stdout=stdout_value)
 
-
-    
-
 if __name__ == '__main__':
-    run_cmd = custom_if_config()
-    run_cmd.main()
+    if_config = custom_if_config()
+    if_config.main()

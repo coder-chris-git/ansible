@@ -3,21 +3,12 @@
 
 from ansible.module_utils.basic import *
 
-class run_cmd():
+class custom_ps_grep():
     
-
     def __init__(self):
              
-    #subpro function exits module with json response
-       
-        # create Dictionaries usually when the dict is lengthy or nested
-
-
-        # set dictiornaires to Ansible agruement spec  or add directly
-
         self.module = AnsibleModule(argument_spec=dict(
 
-            #add dict to list from var
                 name = dict(),
                 sort = dict(),
                 awk =  dict(),
@@ -28,57 +19,47 @@ class run_cmd():
 
         ))
 
+    def main(self):
 
+        ps_grep = self.module.params
 
+        name = ps_grep['name']
+        user = ps_grep['user']
+        sort = ps_grep['sort']
+        awk = ps_grep['awk']
+        dest = ps_grep['dest']
+        count = ps_grep['count']
+        v_grep = ps_grep['v_grep']
 
-    def subpro(self,cmd,msg):
-        child = subprocess.Popen([
-            cmd
-        ],
-                                 shell=True,
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-        stdout_value, stderr_value = child.communicate()
-        # Read arguments
+        path = str(dest) + "/" + str(name)+".out"
+        cmd = "ps -ef | grep " + name
 
-        
-
-        if child.returncode != 0:
-            stdout_value = "none"
-            self.module.exit_json(changed=True, stdout=stdout_value)
-        self.module.exit_json(changed=True, stdout=stdout_value)
-
-    def ps_grep(self,module_params):
-        name = module_params['name']
-        user = module_params['user']
-        sort = module_params['sort']
-        awk = module_params['awk']
-        dest = module_params['dest']
-        count = module_params['count']
-        v_grep = module_params['v_grep']
-
-        
-        cmd = "ps -ef | grep {0} > {1}/{0}.out".format(name,dest)
+        if user:
+            cmd += " | grep {}".format(name)
 
         if v_grep:
-             cmd = "| grep -v grep >".join(cmd.split(">"))
+            cmd += "| grep -v grep"
+
         if sort:
-            cmd = "ps -ef | grep {0} | sort -k {1} > {2}/{0}_sort.out".format(name,sort,dest)
+            path = "{0}/{1}_sort.out".format(dest,name)
+            cmd +=" | sort -k {}".format(sort)
+
         if count:
-            cmd = "| wc -l >".join(cmd.split(">"))
-            cmd= "_number_process_running.out".join(cmd.split(".out"))
+             cmd += " | wc -l"
+             path = "{}/number_process_running.out".format(dest)
 
-           
         if awk:
-            cmd = "ps -ef | grep " + name + " | awk '{ print $" + awk + " }' > " + name+"jhj.out"
+            cmd += " | awk '{ print $" + awk + " }'"
 
+        child = subprocess.Popen([cmd],shell=True,stdout=subprocess.PIPE,)
+        stdout_value, stderr_value = child.communicate()
 
-        msg =  cmd
-        self.subpro(cmd,msg)
+        with open(path, "w") as log:
+            print >> log, stdout_value                  
+        # Read arguments
 
-    def main(self):
-            self.ps_grep(self.module.params)
+        self.module.exit_json(changed=True, stdout=stdout_value)
 
 if __name__ == '__main__':
-    run_cmd = run_cmd()
-    run_cmd.main()
+    ps_grep= custom_ps_grep()
+    ps_grep.main() 

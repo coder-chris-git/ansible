@@ -3,6 +3,7 @@
 
 from ansible.module_utils.basic import *
 
+
 class custom_if_config:
 
     def __init__(self):
